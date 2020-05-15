@@ -17,12 +17,12 @@ const AuthController = {
         res.render('index');
     },
     login : async (req,res)=>{
-        const {email,senha} = req.body; 
-        let Usuario = await Usuario.findOne({where:{email}});
-       if(!Usuario){
+        let {email,senha} = req.body; 
+        let usuario = await Usuario.findOne({where:{email}});
+       if(!usuario){
            res.redirect("/?error=1")
        }
-       if (!brcrypt.compareSync(senha,Usuario.senha)){
+       if (!bcrypt.compareSync(senha,usuario.senha)){
         res.redirect("/?error=1")
        }
       //req.session.usuario = usuario;
