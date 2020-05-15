@@ -1,8 +1,20 @@
-const { sequelize, Post } = require('../models');
+const { sequelize, Post, Comentario, Usuario } = require('../models');
 
-Post.findAll({include:["autor","comentarios"]}).then(
+Post.findByPk(1,{include:
+    [
+    {model:Usuario,
+        as:"autor",
+        include:"posts",
+        attributes:["id","nome","email"]
+    },
+
+    {model:Comentario,
+    as :"comentarios",
+    include:"autor"
+    }
+]}).then(
     data => {
-        console.log(data.map( u => u.toJSON()));
+        console.log(data.toJSON());
         sequelize.close();
     }
 )
